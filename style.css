@@ -5,3 +5,9 @@
 body{
     background-color: #6f0c0c;
 }
+.container-fluid{
+    min-height: 100%;
+  min-height: 100vh; 
+  display: flex;
+  align-items: center;
+}
