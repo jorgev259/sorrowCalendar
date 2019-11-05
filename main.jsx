@@ -2,9 +2,9 @@
 
 $(document).ready(() => {
   const weapons = [
-    { name: 'Blasphemer (Shotgun)', img: 'https://cdn.thetrackernetwork.com/destiny/common/destiny2_content/screenshots/2782847179.jpg' },
-    { name: 'Apostate (Sniper)', img: 'https://cdn.thetrackernetwork.com/destiny/common/destiny2_content/screenshots/2164448701.jpg' },
-    { name: 'Heretic (Rocket Launcher)', img: 'https://cdn.thetrackernetwork.com/destiny/common/destiny2_content/screenshots/3067821200.jpg' }
+    { light: 'https://www.light.gg/db/items/2782847179', tracker: 'https://destinytracker.com/destiny-2/db/items/2782847179-blasphemer', name: 'Blasphemer (Shotgun)', img: 'https://cdn.thetrackernetwork.com/destiny/common/destiny2_content/screenshots/2782847179.jpg' },
+    { light: 'https://www.light.gg/db/items/2164448701', tracker: 'https://destinytracker.com/destiny-2/db/items/2164448701-apostate', name: 'Apostate (Sniper)', img: 'https://cdn.thetrackernetwork.com/destiny/common/destiny2_content/screenshots/2164448701.jpg' },
+    { light: 'https://www.light.gg/db/items/3067821200', tracker: 'https://destinytracker.com/destiny-2/db/items/3067821200-heretic', name: 'Heretic (Rocket Launcher)', img: 'https://cdn.thetrackernetwork.com/destiny/common/destiny2_content/screenshots/3067821200.jpg' }
   ]
   const data = []
 
@@ -26,12 +26,12 @@ $(document).ready(() => {
   const currentWeapon = weapons[diff % 3]
   console.log(currentWeapon)
 
-  data.push({ img: currentWeapon.img, title: currentWeapon.name, body: 'Currently dropping' })
+  data.push({ light: currentWeapon.light, tracker: currentWeapon, img: currentWeapon.img, title: currentWeapon.name, body: 'Currently dropping' })
 
   weapons.splice(diff % 3, 1)
-  data.push({ img: weapons[diff % 3].img, title: weapons[diff % 3].name, body: `in ${reset1.days()} days, ${reset1.hours()} hours  and ${reset1.minutes()} minutes` })
+  data.push({ light: weapons[diff % 3].light, tracker: weapons[diff % 3].tracker, img: weapons[diff % 3].img, title: weapons[diff % 3].name, body: `in ${reset1.days()} days, ${reset1.hours()} hours  and ${reset1.minutes()} minutes` })
   weapons.splice(diff % 3, 1)
-  data.push({ img: weapons[0].img, title: weapons[0].name, body: `in ${reset2.days()} days, ${reset2.hours()} hours  and ${reset2.minutes()} minutes` })
+  data.push({ light: weapons[0].light, tracker: weapons[0].tracker, img: weapons[0].img, title: weapons[0].name, body: `in ${reset2.days()} days, ${reset2.hours()} hours  and ${reset2.minutes()} minutes` })
   ReactDOM.render(cardBody(data), document.getElementById('body'))
 })
 
@@ -48,6 +48,8 @@ function cardBody (data) {
             <div className='card-body'>
               <h5 className='card-title'>{card.title}</h5>
               <p className='card-text'>{card.body}</p>
+              <a href={card.light} className='card-link'>Light.GG</a>
+              <a href={card.tracker} className='card-link'>Destiny Tracker</a>
             </div>
           </div>
         )
