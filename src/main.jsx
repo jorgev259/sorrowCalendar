@@ -15,22 +15,25 @@ $(document).ready(() => {
   const todayReset = moment.tz('America/Los_Angeles').hour(10).minute(0).second(0)
   let reset1 = todayReset.clone()
   let reset2 = todayReset.clone()
-  reset1 = moment.duration(reset1.add(1, 'day').diff(today))
-  reset2 = moment.duration(reset2.add(2, 'day').diff(today))
 
-  let diff = moment.tz('America/Los_Angeles').diff(start, 'days')
-  const afterReset = today.isAfter(todayReset)
-  console.log(afterReset)
-  if (!afterReset) diff += -1
+  const afterReset = today.isAfter(todayReset) ? 0 : 1
+
+  reset1 = moment.duration(reset1.add(1 - afterReset, 'day').diff(today))
+  reset2 = moment.duration(reset2.add(2 - afterReset, 'day').diff(today))
+
+  const diff = moment.tz('America/Los_Angeles').diff(start, 'days')
 
   const currentWeapon = weapons[diff % 3]
   console.log(currentWeapon)
 
   data.push({ light: currentWeapon.light, tracker: currentWeapon, img: currentWeapon.img, title: currentWeapon.name, body: 'Currently dropping' })
-
+  console.log(diff)
+  console.log(weapons)
   weapons.splice(diff % 3, 1)
+  console.log(weapons)
   data.push({ light: weapons[diff % 3].light, tracker: weapons[diff % 3].tracker, img: weapons[diff % 3].img, title: weapons[diff % 3].name, body: `in ${reset1.days()} days, ${reset1.hours()} hours  and ${reset1.minutes()} minutes` })
   weapons.splice(diff % 3, 1)
+  console.log(weapons)
   data.push({ light: weapons[0].light, tracker: weapons[0].tracker, img: weapons[0].img, title: weapons[0].name, body: `in ${reset2.days()} days, ${reset2.hours()} hours  and ${reset2.minutes()} minutes` })
   ReactDOM.render(cardBody(data), document.getElementById('body'))
 })
@@ -55,5 +58,5 @@ function cardBody (data) {
         )
       })
     }
-  </div>
+         </div>
 }
