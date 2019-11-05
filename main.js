@@ -6,10 +6,10 @@ $(document).ready(() => {
     .year(2019).month(9).date(29).hour(10).minute(0).second(0)
   const today = moment.tz('America/Los_Angeles')
   const todayReset = moment.tz('America/Los_Angeles').hour(10).minute(0).second(0)
-  const reset1 = todayReset.clone()
-  const reset2 = todayReset.clone()
-  reset1.add(1, 'day')
-  reset2.add(2, 'day')
+  let reset1 = todayReset.clone()
+  let reset2 = todayReset.clone()
+  reset1 = moment.duration(reset1.add(1, 'day').diff(today))
+  reset2 = moment.duration(reset2.add(2, 'day').diff(today))
 
   let diff = moment.tz('America/Los_Angeles').diff(start, 'days')
   const afterReset = today.isAfter(todayReset)
@@ -23,9 +23,17 @@ $(document).ready(() => {
 
   weapons.splice(diff % 3, 1)
 
-  $('#timer2').text(today.to(reset1))
+  $('#timer2').text(`in ${reset1.days()} days, ${reset1.hours()} hours  and ${reset1.minutes()} minutes`)
   $('#weapon2').text(weapons[diff % 3])
   weapons.splice(diff % 3, 1)
-  $('#timer3').text(today.to(reset2))
+  $('#timer3').text(`in ${reset2.days()} days, ${reset2.hours()} hours  and ${reset2.minutes()} minutes`)
   $('#weapon3').text(weapons[0])
+})
+
+moment.updateLocale('en', {
+  relativeTime: {
+    s: function (number, withoutSuffix, key, isFuture) {
+      return number + ' seconds'
+    }
+  }
 })
