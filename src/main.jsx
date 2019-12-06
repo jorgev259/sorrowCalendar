@@ -21,7 +21,7 @@ $(document).ready(() => {
   reset1 = moment.duration(reset1.add(1 - afterReset, 'day').diff(today))
   reset2 = moment.duration(reset2.add(2 - afterReset, 'day').diff(today))
 
-  const diff = moment.tz('America/Los_Angeles').diff(start, 'days')
+  let diff = moment.tz('America/Los_Angeles').diff(start, 'days')
 
   const currentWeapon = weapons[diff % 3]
   console.log(currentWeapon)
@@ -30,6 +30,7 @@ $(document).ready(() => {
   console.log(diff)
   console.log(weapons)
   weapons.splice(diff % 3, 1)
+  if (!weapons[diff % 3]) diff += -2
   console.log(weapons)
   data.push({ light: weapons[diff % 3].light, tracker: weapons[diff % 3].tracker, img: weapons[diff % 3].img, title: weapons[diff % 3].name, body: `in ${reset1.days()} days, ${reset1.hours()} hours  and ${reset1.minutes()} minutes` })
   weapons.splice(diff % 3, 1)
@@ -39,24 +40,26 @@ $(document).ready(() => {
 })
 
 function cardBody (data) {
-  return <div className='card-group'>
-    {
-      data.map((card, index) => {
-        return (
-          <div className='card' key={card.title}>
-            <img
-              src={card.img}
-              className='card-img-top' alt='...'
-            />
-            <div className='card-body'>
-              <h5 className='card-title'>{card.title}</h5>
-              <p className='card-text'>{card.body}</p>
-              <a href={card.light} className='card-link'>Light.GG</a>
-              <a href={card.tracker} className='card-link'>Destiny Tracker</a>
+  return (
+    <div className='card-group'>
+      {
+        data.map((card, index) => {
+          return (
+            <div className='card' key={card.title}>
+              <img
+                src={card.img}
+                className='card-img-top' alt='...'
+              />
+              <div className='card-body'>
+                <h5 className='card-title'>{card.title}</h5>
+                <p className='card-text'>{card.body}</p>
+                <a href={card.light} className='card-link'>Light.GG</a>
+                <a href={card.tracker} className='card-link'>Destiny Tracker</a>
+              </div>
             </div>
-          </div>
-        )
-      })
-    }
-         </div>
+          )
+        })
+      }
+    </div>
+  )
 }
